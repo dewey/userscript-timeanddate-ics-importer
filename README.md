@@ -4,14 +4,13 @@ A Tampermonkey userscript (Safari-friendly) that imports events from an `.ics` (
 
 It runs **in the browser** (same-origin), using your logged-in session and the same endpoints as the UI.
 
+<img width="1058" height="632" alt="Screenshot 2026-01-18 at 22 29 45@2x" src="https://github.com/user-attachments/assets/ba424f21-527b-430f-a59b-d5c9c37566db" />
+
+
 ## Features
 
-- Lists your calendars via `GET /scripts/ownevents.php/cal/?ft=...`
+- Lists calendars
 - Lets you pick a target calendar (labels calendars with `anniversary: true` as **(Birthday)**)
-- Imports events from an `.ics` file using `POST /scripts/ownevents.php/ev/?ft=...`
-- Uses `ical.js` for robust RFC5545 parsing
-- Optional: use calendar color for imported events
-- Remembers selected calendar + settings via `localStorage`
 
 ## Install
 
@@ -31,11 +30,6 @@ It runs **in the browser** (same-origin), using your logged-in session and the s
 
 - Calendars with `anniversary: true` are treated as Birthday calendars; birthdays recur automatically on timeanddate.
 - Importing into normal calendars creates one-off events (unless you configure recurrence separately).
-
-## Development
-
-- `@require` pulls `ical.js` from unpkg.
-- Settings are stored in the browser via `localStorage` under the `tad_ics_importer_` prefix.
 
 ## License
 
