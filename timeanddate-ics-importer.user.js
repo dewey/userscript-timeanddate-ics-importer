@@ -9,6 +9,7 @@
 // @match        https://www.timeanddate.com/calendar/events/*
 // @grant        none
 // @require      https://unpkg.com/ical.js@1.5.0/build/ical.min.js
+// @require https://raw.githubusercontent.com/dewey/userscript-timeanddate-ics-importer/main/timeanddate-ics-importer.user.js
 // ==/UserScript==
 
 (function () {
