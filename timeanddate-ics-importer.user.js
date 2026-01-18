@@ -8,6 +8,8 @@
 // @supportURL   https://github.com/dewey/userscript-timeanddate-ics-importer/issues
 // @match        https://www.timeanddate.com/calendar/events/*
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/dewey/userscript-timeanddate-ics-importer/main/timeanddate-ics-importer.user.js
+// @downloadURL  https://raw.githubusercontent.com/dewey/userscript-timeanddate-ics-importer/main/timeanddate-ics-importer.user.js
 // @require      https://unpkg.com/ical.js@1.5.0/build/ical.min.js
 // @require      https://raw.githubusercontent.com/dewey/userscript-timeanddate-ics-importer/main/timeanddate-ics-importer.user.js
 // ==/UserScript==
@@ -214,18 +216,20 @@
       ].join(';')
     );
 
-    const title = el('div', 'font-weight:600; margin-bottom:8px;');
-    title.textContent = 'timeanddate importer';
+    const title = el('div', 'font-weight:600; margin-bottom:8px; font-size:16px;');
+    title.textContent = 'Import Calendar Events';
     panel.appendChild(title);
 
     const status = el('div', 'font-size:12px; white-space:pre-wrap; margin-bottom:10px;');
     status.textContent = 'Loading calendars…';
     panel.appendChild(status);
 
-    // Anchor year
+    // Year
     const yearRow = el('div', 'display:flex; gap:8px; align-items:center; margin:8px 0;');
-    yearRow.appendChild(el('div', 'font-size:12px;')).textContent = 'Anchor year:';
-    const yearInput = el('input', 'width:110px; padding:6px; border:1px solid #ccc; border-radius:8px;');
+    const yearLabel = el('div', 'font-size:12px; width:70px; flex-shrink:0;');
+    yearLabel.textContent = 'Year:';
+    yearRow.appendChild(yearLabel);
+    const yearInput = el('input', 'flex:1;');
     yearInput.type = 'number';
     yearInput.value = readLS(LS_YEAR, String(new Date().getFullYear()));
     yearInput.addEventListener('change', () => writeLS(LS_YEAR, yearInput.value));
@@ -234,7 +238,9 @@
 
     // Calendar selector + dot
     const calRow = el('div', 'display:flex; gap:8px; align-items:center; margin:8px 0;');
-    calRow.appendChild(el('div', 'font-size:12px;')).textContent = 'Target calendar:';
+    const calLabel = el('div', 'font-size:12px; width:70px; flex-shrink:0;');
+    calLabel.textContent = 'Calendar:';
+    calRow.appendChild(calLabel);
 
     const dot = el(
       'span',
@@ -249,7 +255,7 @@
       ].join(';')
     );
 
-    const calSelect = el('select', 'flex:1; padding:6px; border:1px solid #ccc; border-radius:8px;');
+    const calSelect = el('select', 'flex:1;');
     calRow.appendChild(dot);
     calRow.appendChild(calSelect);
     panel.appendChild(calRow);
@@ -266,19 +272,25 @@
 
     // Buttons
     const btnRow = el('div', 'display:flex; gap:8px; margin-top:10px;');
-    const reloadBtn = el('button', 'flex:1; padding:10px 12px; border-radius:10px; border:1px solid #ccc; background:#fff; cursor:pointer;');
+    const reloadBtn = el('button', 'flex:1;');
     reloadBtn.textContent = 'Reload';
-    const importBtn = el('button', 'flex:1; padding:10px 12px; border-radius:10px; border:1px solid #ccc; background:#fff; cursor:pointer;');
+    const importBtn = el('button', 'flex:1;');
     importBtn.textContent = 'Import .ics';
     btnRow.appendChild(reloadBtn);
     btnRow.appendChild(importBtn);
     panel.appendChild(btnRow);
 
-    const hint = el('div', 'margin-top:10px; font-size:12px; color:#333; line-height:1.35;');
-    hint.textContent =
-      'Calendars with anniversary=true are labeled (Birthday). ' +
-      'In Birthday calendars, entries recur automatically; in normal calendars, imports are one-off.';
-    panel.appendChild(hint);
+    const footer = el('div', 'margin-top:10px; font-size:11px; color:#666; text-align:center;');
+    const footerLink = document.createElement('a');
+    footerLink.href = 'https://github.com/dewey/userscript-timeanddate-ics-importer';
+    footerLink.target = '_blank';
+    footerLink.rel = 'noopener noreferrer';
+    footerLink.textContent = 'Report issues on GitHub';
+    footerLink.style.cssText = 'color:#666; text-decoration:none;';
+    footerLink.addEventListener('mouseenter', () => footerLink.style.textDecoration = 'underline');
+    footerLink.addEventListener('mouseleave', () => footerLink.style.textDecoration = 'none');
+    footer.appendChild(footerLink);
+    panel.appendChild(footer);
 
     document.body.appendChild(panel);
 
